@@ -1,0 +1,28 @@
+//1. Create a collection named orders 
+    > db.createCollection('orders')
+
+//2. Insert 3 documents
+    > orders.insert({ orderDate: ('2017-02-03'), orderTotal: 55, lineItems: [ {productName: 'pencil'}, {unitPrice: 3}, {quantity: 10} ]})
+
+    > orders.insert({ orderDate: ('2017-04-04'), orderTotal: 20, lineItems: [ {productName: 't-shirt'}, {unitPrice: 20}, {quantity: 1} ]})
+
+    > orders.insert({ orderDate: ('2017-01-02'), orderTotal: 10, lineItems: [ {productName: 'snickers bar'}, {unitPrice: 2}, {quantity: 5} ]})
+
+//3. find all orders and make them look pretty
+    > orders.find().pretty()
+
+//4. find orders with an orderDate after 1/31/2017
+    > orders.find({ orderDate: {$gt:'2017-01-31'}})
+
+//5. change orderTotal for 02/03/2017
+    > orders.update({orderDate: ('2017-02-03')}, {$set: {orderTotal:63}})
+
+//6. Add another lineItem to order from 4/4/2017
+    > orders.update({orderDate:'2017-04-04'}, {$push: {lineItem:{totalItems: 4}}})
+
+//7. Change the first lineItem in the order from 1/2/2017 to be for 2 'transistor radio's
+    > orders.update({orderDate: ('2017-01-02')}, {$set: {'lineItems.0.quantity': 2, 'lineItems.0.productName': 'transistor radio'}})
+
+//8. Find orders with lineItems that have a quantity that is less than 10, but greater than 2.
+    > orders.find({lineItems: {$elemMatch: {quantity: {$lt: 10, $gt: 2}}}})
+
